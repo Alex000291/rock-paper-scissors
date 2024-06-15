@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+  <style>
+    body {
+      background-color: rgb(25,25,25);
+      font-size: 15px;
+      color:white;
+    }
+
+    .title {
+      font-size: 30px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .move-icon{
+      align-items: center;
+      background-color: transparent;
+      cursor: pointer;
+      height: 100PX;
+      width: 100PX;
+      border: 3px solid white;
+      margin-right: 10px;
+      background-size: contain;
+      border-radius: 50px;
+    }
+
+    .emoji{
+      height:30px
+    }
+
+    .whowin{
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .specificmove{
+      font-size: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+
+    }
+    
+    .reset{
+      padding : 5px 0px 5px 0px;
+    }
+  </style>
+</head>
+<body>
+  <div><p class="title">Rock Paper Scissors</p></div>
+  
+  <div>
+    <button onclick="playerMove('rock')" class="move-icon"><img src="img\rock-emoji.png" class="emoji"></button>
+    <button onclick="playerMove('paper')" class="move-icon"><img src="img\paper-emoji.png" class="emoji"></button>
+    <button onclick="playerMove('scissors')" class="move-icon"><img src="img\paper-emoji.png" class="emoji"></button>
+  </div>
+  
+  <div class="whowin"></div>
+  <div class="specificmove">you-computer</div>
+  <div class="score">win: lose: tie:</div>
+  <div><button class="reset" onclick="resetScore()">Reset Score</button></div>
+
+  <script>
+    let moves = ['rock', 'paper', 'scissors'];
+    score = JSON.parse(localStorage.getItem('score')) || { win: 0, lose: 0, tie: 0 };
+
+    function computerMove() { 
+      return moves[Math.floor(Math.random() * moves.length)];
+    } 
+
+    function playerMove(move) {
+      let computer = computerMove();
+      let result = '';
+      if (move === computer) {
+        result = 'tie';
+        score.tie++;
+      } else if ((move === 'rock' && computer === 'scissors') || 
+                 (move === 'paper' && computer === 'rock') || 
+                 (move === 'scissors' && computer === 'paper')) {
+        result = 'win';
+        score.win++;
+      } else {
+        result = 'lose';
+        score.lose++;
+      }
+      document.querySelector('.whowin').innerText = `You ${result}.`;
+      document.querySelector('.specificmove').innerHTML = `You <img src="img/${move}-emoji.png"  style="width: 50px;"> - <img src="img/${computer}-emoji.png" style="width: 50px;"> Computer`;
+      updateScore();
+    }
+
+    function updateScore() {
+      document.querySelector('.score').innerText = `win: ${score.win}, lose: ${score.lose}, tie: ${score.tie}`;
+    }
+
+    function resetScore() {
+      score = { win: 0, lose: 0, tie: 0 };
+      updateScore();
+      document.querySelector('.whowin').innerText = '';
+      document.querySelector('.specificmove').innerText = 'you-computer';
+
+      localStorage.setItem('score', JSON.stringify(score));
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
